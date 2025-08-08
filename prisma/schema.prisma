@@ -1,0 +1,166 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  role          String    @default("USER")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts Account[]
+  sessions Session[]
+  designs  Design[]
+  orders   Order[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  image       String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id             String        @id @default(cuid())
+  name           String
+  slug           String        @unique
+  description    String?
+  price          Float
+  images         String
+  modelUrl       String?
+  dimensions     String?
+  weight         Float?
+  stock          Int           @default(0)
+  isActive       Boolean       @default(true)
+  categoryId     String
+  category       Category      @relation(fields: [categoryId], references: [id])
+  specifications String?
+  designItems    DesignItem[]
+  orderItems     OrderItem[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Design {
+  id          String       @id @default(cuid())
+  name        String
+  description String?
+  isPublic    Boolean      @default(false)
+  thumbnail   String?
+  data        String
+  totalPrice  Float        @default(0)
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items       DesignItem[]
+  orders      Order[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model DesignItem {
+  id        String  @id @default(cuid())
+  designId  String
+  design    Design  @relation(fields: [designId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int     @default(1)
+  position  String?
+  rotation  String?
+  scale     String?
+}
+
+model Order {
+  id             String      @id @default(cuid())
+  orderNumber    String      @unique
+  status         String      @default("PENDING")
+  totalAmount    Float
+  shippingCost   Float       @default(0)
+  taxAmount      Float       @default(0)
+  stripePaymentId String?
+  shippingAddress String
+  billingAddress  String?
+  notes          String?
+  userId         String
+  user           User        @relation(fields: [userId], references: [id])
+  designId       String?
+  design         Design?     @relation(fields: [designId], references: [id])
+  items          OrderItem[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  shippedAt      DateTime?
+  deliveredAt    DateTime?
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+  name      String
+}
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  excerpt   String?
+  image     String?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

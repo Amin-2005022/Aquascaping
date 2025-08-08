@@ -1,0 +1,15 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#E5F3FF"/>
+  <rect x="50" y="50" width="300" height="200" rx="10" fill="#B3D9FF" stroke="#4A90E2" stroke-width="2"/>
+  <circle cx="100" cy="120" r="15" fill="#FF6B6B"/>
+  <circle cx="140" cy="140" r="12" fill="#4ECDC4"/>
+  <circle cx="180" cy="125" r="10" fill="#45B7D1"/>
+  <circle cx="220" cy="135" r="14" fill="#96CEB4"/>
+  <path d="M80 180 Q120 160 160 180 T240 180" stroke="#2ECC71" stroke-width="3" fill="none"/>
+  <path d="M260 190 Q280 170 300 190" stroke="#27AE60" stroke-width="2" fill="none"/>
+  <rect x="320" y="170" width="15" height="40" rx="2" fill="#8E44AD"/>
+  <circle cx="327" cy="165" r="3" fill="#9B59B6"/>
+  <text x="200" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#666">
+    Aquarium Placeholder
+  </text>
+</svg>
