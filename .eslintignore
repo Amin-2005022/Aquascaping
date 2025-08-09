@@ -1,0 +1,23 @@
+# Node modules
+node_modules/
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+
+# Prisma generated files
+prisma/client/
+
+# Public assets
+public/
+
+# Config files
+next.config.js
+tailwind.config.js
+postcss.config.js
+
+# Temp files
+*.temp.*
+*.tmp.*
