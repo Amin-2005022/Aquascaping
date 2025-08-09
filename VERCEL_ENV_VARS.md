@@ -4,7 +4,7 @@ Make sure to add these environment variables in Vercel dashboard:
 
 ## Authentication
 - NEXTAUTH_SECRET (generate with: `openssl rand -base64 32`)
-- NEXTAUTH_URL (will be set automatically by Vercel)
+- NEXTAUTH_URL (set to your deployment URL, e.g., https://your-app.vercel.app)
 
 ## Google OAuth (if using)
 - GOOGLE_CLIENT_ID
