@@ -1,8 +1,31 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '../../../lib/prisma'
 
+// Define types for better type safety
+interface DebugInfo {
+  environment: string | undefined;
+  databaseUrl: string;
+  vercelEnv: string;
+  timestamp: string;
+  serverInfo: {
+    nodeVersion: string;
+    platform: string;
+    arch: string;
+  };
+  dbConnectionTest: any;
+  prismaModels: string[] | null;
+  prismaModelDetails: Record<string, any>;
+  tables: any;
+  errorDetails: {
+    message: string;
+    name: string;
+    code?: string;
+    stack?: string;
+  } | null;
+}
+
 export async function GET() {
-  const debugInfo = {
+  const debugInfo: DebugInfo = {
     environment: process.env.NODE_ENV,
     databaseUrl: process.env.DATABASE_URL ? 
       `${process.env.DATABASE_URL.split('://')[0]}://*****` : 

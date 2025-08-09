@@ -12,9 +12,53 @@ async function trySafe<T>(operation: () => Promise<T>, operationName: string): P
   }
 }
 
+// Define the type for the results object
+interface DiagnosticResults {
+  timestamp: string;
+  environment: string | undefined;
+  vercelDeployment: boolean;
+  apiRoute: {
+    status: string;
+    message: string;
+  };
+  databaseConnection: {
+    success: boolean;
+    result?: { connected: boolean };
+    error?: any;
+  };
+  dbDetails: {
+    url: string;
+  };
+  prismaModels?: {
+    success: boolean;
+    result?: string[];
+    error?: any;
+  };
+  tableStructure?: {
+    success: boolean;
+    result?: any;
+    error?: any;
+  };
+  designTableTest?: {
+    success: boolean;
+    result?: any;
+    error?: any;
+  };
+  userTableTest?: {
+    success: boolean;
+    result?: any;
+    error?: any;
+  };
+  simpleQueryTest?: {
+    success: boolean;
+    result?: any;
+    error?: any;
+  };
+}
+
 export async function GET() {
   // Start with basic environment info
-  const results: any = {
+  const results: DiagnosticResults = {
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV,
     vercelDeployment: !!process.env.VERCEL,
