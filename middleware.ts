@@ -21,6 +21,10 @@ export default withAuth(
         if (req.nextUrl.pathname.startsWith('/api/auth')) return true
         if (req.nextUrl.pathname.startsWith('/auth')) return true
         
+        // Allow diagnostic endpoints without authentication
+        if (req.nextUrl.pathname.startsWith('/api/diagnostic')) return true
+        if (req.nextUrl.pathname.startsWith('/api/debug-')) return true
+        
         // Allow unauthenticated access only to the home page
         if (req.nextUrl.pathname === '/') return true
         
@@ -43,11 +47,13 @@ export const config = {
     /*
      * Match all request paths except for the ones starting with:
      * - api/auth (Next Auth API routes)
+     * - api/diagnostic (Diagnostic endpoint)
+     * - api/debug- (Debug endpoints)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - public folder
      */
-    '/((?!api/auth|_next/static|_next/image|favicon.ico|.*\\.png$|.*\\.svg$).*)',
+    '/((?!api/auth|api/diagnostic|api/debug-|_next/static|_next/image|favicon.ico|.*\\.png$|.*\\.svg$).*)',
   ]
 }
