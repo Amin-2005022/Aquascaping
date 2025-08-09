@@ -415,7 +415,7 @@ export function AquariumAIAssistant() {
               </div>
               <h3 className="text-2xl font-bold text-gray-700 mb-4">No images generated yet</h3>
               <p className="text-gray-500 max-w-lg leading-relaxed text-lg">
-                Fill out the form on the left and click <strong>"Generate Aquarium Image"</strong> to create your first AI concept!
+                Fill out the form on the left and click <strong>&quot;Generate Aquarium Image&quot;</strong> to create your first AI concept!
               </p>
               <div className="mt-8 flex items-center gap-3 text-base text-gray-400">
                 <Sparkles className="h-5 w-5" />

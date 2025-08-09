@@ -276,7 +276,7 @@ export default function SignUpPage() {
                 )}
                 
                 <div className="bg-blue-50 p-4 rounded-md mb-4 text-sm">
-                  <p>We've sent a verification code to <strong>{email}</strong></p>
+                  <p>We&apos;ve sent a verification code to <strong>{email}</strong></p>
                   <p className="mt-1">Please check your inbox and enter the code below.</p>
                 </div>
                 

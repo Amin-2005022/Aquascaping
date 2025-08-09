@@ -68,23 +68,19 @@ const ModelPaths = {
 const GLTFModel = React.memo(({ modelPath, position, rotation, scale, isSelected, onError }: any) => {
   console.log('Attempting to load model:', modelPath)
   
-  // Always call useGLTF first - React Hooks must be called unconditionally
-  let gltfResult: any
-  let scene: any
+  // Always call useGLTF unconditionally
+  const gltfResult = useGLTF(modelPath) as any
+  
+  // Handle errors after the hook call
+  let scene: any = null
   let hasError = false
   
-  try {
-    gltfResult = useGLTF(modelPath) as any
-    scene = gltfResult?.scene
-    
-    if (!scene) {
-      hasError = true
-      console.error('No scene found in GLTF for:', modelPath)
-    }
-  } catch (loadError) {
+  if (!gltfResult || !gltfResult.scene) {
     hasError = true
-    console.error('Error loading GLTF model:', loadError)
-    if (onError) onError(loadError)
+    console.error('No scene found in GLTF for:', modelPath)
+    if (onError) onError(new Error('No scene found in GLTF'))
+  } else {
+    scene = gltfResult.scene
   }
   
   if (hasError) {
