@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '../../../components/ui/button'
@@ -8,7 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../..
 import { Droplets } from 'lucide-react'
 import Link from 'next/link'
 
-export default function SignInPage() {
+// Create a client component that uses useSearchParams
+function SignInForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -160,5 +161,28 @@ export default function SignInPage() {
         </Card>
       </div>
     </div>
+  )
+}
+
+// Page component with Suspense boundary
+export default function SignInPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="w-full max-w-md p-4">
+          <Card>
+            <CardHeader className="space-y-1 text-center">
+              <div className="flex justify-center mb-2">
+                <Droplets size={28} className="text-primary" />
+              </div>
+              <CardTitle className="text-2xl font-bold">Loading</CardTitle>
+              <CardDescription>Please wait while we prepare your sign-in</CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+      </div>
+    }>
+      <SignInForm />
+    </Suspense>
   )
 }
